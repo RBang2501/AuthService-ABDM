@@ -36,8 +36,11 @@ public class AuthController {
     @PostMapping("/getUserByToken")
     public ResponseEntity<User>  getUserByToken(@RequestBody Map<String, Object> request) {
         String jwtToken = (String) request.get("jwtToken");
+        System.out.println(jwtToken);
+
         if (jwtToken != null && !jwtToken.isEmpty()) {
             User user = userService.getUserByToken(jwtToken);
+            System.out.println(user);
             if (user != null) {
                 return ResponseEntity.ok(user);
             } else {
