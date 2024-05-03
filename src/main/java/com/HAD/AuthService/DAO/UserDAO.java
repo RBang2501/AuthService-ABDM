@@ -33,6 +33,14 @@ public class UserDAO {
         return resultList.isEmpty() ? null : resultList.get(0);
     }
 
+
+    public User findByToken(String token) {
+        Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.jwtToken = :token", User.class);
+        query.setParameter("token", token);
+        return (User) query.getSingleResult();
+    }
+   
+
   
 
     @Transactional(readOnly = true)

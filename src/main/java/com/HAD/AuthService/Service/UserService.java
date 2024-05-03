@@ -46,13 +46,17 @@ public class UserService {
         throw new UsernameNotFoundException("Invalid credentials.");
     }
 
-     public String refreshToken(String refreshToken) {
+    public String refreshToken(String refreshToken) {
         String email = jwtTokenProvider.extractUsername(refreshToken);
         User user = userDAO.findByEmail(email);
         if (user != null && jwtTokenProvider.isTokenValid(refreshToken, user)) {
             return jwtTokenProvider.generateToken(user);
         }
         throw new IllegalArgumentException("Invalid refresh token.");
+    }
+
+    public User getUserByToken(String jwtToken) {
+        return userDAO.findByToken(jwtToken);
     }
 
 }

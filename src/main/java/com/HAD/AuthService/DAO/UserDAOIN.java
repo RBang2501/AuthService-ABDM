@@ -12,6 +12,8 @@ public interface UserDAOIN {
 
     User findByEmail(String email);
 
+    User findByToken(String token);
+
     List<User> findAll();
 
     User update(User user);
