@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/Team-10/auth/user")
 public class AuthController {
 
     @Autowired
@@ -27,7 +27,6 @@ public class AuthController {
     public ResponseEntity<String> signInUser(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         String password = request.get("password");
-        System.out.println(email);
         String token = userService.signIn(email, password);
         return ResponseEntity.ok(token);
     }

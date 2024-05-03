@@ -11,7 +11,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.HAD.AuthService.Model.User;
 import com.HAD.AuthService.Service.DetailService;
 
 import jakarta.servlet.FilterChain;
