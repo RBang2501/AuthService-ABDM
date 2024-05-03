@@ -37,11 +37,16 @@ public class UserService {
         
         User user = userDAO.findByEmail(email);
         if (authentication.isAuthenticated()) {
+            String token = jwtTokenProvider.generateToken((User) authentication.getPrincipal());
+            user.setJwtToken(token); 
             if (user.getJwtToken() == null || user.getJwtToken().isEmpty() || user.getJwtToken().equals("NAN")) {
-                user.setJwtToken(jwtTokenProvider.generateToken((User) authentication.getPrincipal()));
                 userDAO.save(user);
             }
-            return jwtTokenProvider.generateToken((User) authentication.getPrincipal());
+            else 
+            {
+                userDAO.update(user);
+            }
+            return token;
         }
         throw new UsernameNotFoundException("Invalid credentials.");
     }
