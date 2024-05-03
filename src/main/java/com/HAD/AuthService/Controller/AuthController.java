@@ -29,7 +29,6 @@ public class AuthController {
     public ResponseEntity<String> signInUser(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         String password = request.get("password");
-        System.out.println(email);
         String token = userService.signIn(email, password);
         return ResponseEntity.ok(token);
     }

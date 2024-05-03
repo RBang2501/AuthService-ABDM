@@ -27,26 +27,26 @@ public class UserService {
     private AuthenticationManager authenticationManager;
 
     public User register(User user) {
-        // Encode the password before saving
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userDAO.save(user);
     }
 
     public String signIn(String email, String password) {
-        System.out.println(email);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password));
         
         User user = userDAO.findByEmail(email);
-        System.out.println(user);
         if (authentication.isAuthenticated()) {
-
+            if (user.getJwtToken() == null || user.getJwtToken().isEmpty() || user.getJwtToken().equals("NAN")) {
+                user.setJwtToken(jwtTokenProvider.generateToken((User) authentication.getPrincipal()));
+                userDAO.save(user);
+            }
             return jwtTokenProvider.generateToken((User) authentication.getPrincipal());
         }
         throw new UsernameNotFoundException("Invalid credentials.");
     }
 
-    public String refreshToken(String refreshToken) {
+     public String refreshToken(String refreshToken) {
         String email = jwtTokenProvider.extractUsername(refreshToken);
         User user = userDAO.findByEmail(email);
         if (user != null && jwtTokenProvider.isTokenValid(refreshToken, user)) {
